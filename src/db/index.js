@@ -4,12 +4,14 @@ import {DB_NAME} from "../constants.js";
 
 function connectDB(){
     return new Promise((resolve,reject) => {
-        return mongoose.connect(`${process.env.MONGODB_URI}/${DB_NAME}`)
+        mongoose.connect(`${process.env.MONGODB_URI}/${DB_NAME}`)
         .then((connectionInstance) => {
             console.log("Connection Successfull And  Connected To Port "+connectionInstance.connection.port);
+            resolve();
         })
         .catch((err) => {
             console.log("MONGODB connection FAILED" ,err);
+            reject(err);
             process.exit(1);
         })
     })
