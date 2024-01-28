@@ -4,7 +4,10 @@ import {User} from '../models/user.model.js';
 import {uploadCloudinary} from '../utils/cloudinary.js';
 import ApiResponse from "../utils/ApiResponse.js";
 import jsonwebtoken from "jsonwebtoken";
+<<<<<<< HEAD
 import mongoose from "mongoose";
+=======
+>>>>>>> 7dcb05844c2ae8314d3ca6ab2cf489e7300eb954
 
 const registerUser = asyncHandler(async (req,res)=>{
     //get payload
@@ -46,7 +49,11 @@ const registerUser = asyncHandler(async (req,res)=>{
     const avatarCloud = await uploadCloudinary(avatarLocal);
     const coverCloud = await uploadCloudinary(coverImageLocal);
 
+<<<<<<< HEAD
     if(!avatarCloud?.url){
+=======
+    if(avatarCloud == null){
+>>>>>>> 7dcb05844c2ae8314d3ca6ab2cf489e7300eb954
         throw new ApiError("Server error",504);
     }
     //create user obj
@@ -55,8 +62,13 @@ const registerUser = asyncHandler(async (req,res)=>{
         email,
         fullName,
         password,
+<<<<<<< HEAD
         avatar:avatarCloud.url,
         coverImage:coverCloud?.url,
+=======
+        avatar:avatarCloud,
+        coverImage:coverCloud,
+>>>>>>> 7dcb05844c2ae8314d3ca6ab2cf489e7300eb954
     })
 
     const userPresent = await User.findOne({
@@ -73,6 +85,7 @@ const registerUser = asyncHandler(async (req,res)=>{
     
 })
 
+<<<<<<< HEAD
 const generateAccessTokenandRefreshToken = async(userId)=>{
 
     let user = await User.findById(userId);
@@ -80,12 +93,16 @@ const generateAccessTokenandRefreshToken = async(userId)=>{
     if(!user){
         new ApiError("Account not Found");
     }
+=======
+const generateAccessTokenandRefreshToken = async(user)=>{
+>>>>>>> 7dcb05844c2ae8314d3ca6ab2cf489e7300eb954
 
     const accessToken = await user.generateAccessToken();
     const refreshToken = await user.generateRefreshToken();
 
     user.refreshToken = refreshToken;
 
+<<<<<<< HEAD
     let userUpdated = await user.save({ validateBeforeSave: false },{new:true});
 
     // delete user.refreshToken;
@@ -93,6 +110,11 @@ const generateAccessTokenandRefreshToken = async(userId)=>{
 
 
     return {userUpdated,accessToken,refreshToken};
+=======
+    await user.save({ runValidators: true });
+
+    return {accessToken,refreshToken};
+>>>>>>> 7dcb05844c2ae8314d3ca6ab2cf489e7300eb954
 
 }
 const loginUser = asyncHandler(async(req,res) =>{
@@ -120,6 +142,7 @@ const loginUser = asyncHandler(async(req,res) =>{
 
     const userUpdated  = await User.findOne({
         _id:user._id
+<<<<<<< HEAD
     },'-password -watchHistory -refreshToken')
 
     userUpdated.accessToken = accessToken;
@@ -401,3 +424,15 @@ export {
     getUserChannelProfile,
     getUserHistory
 };
+=======
+    },'-password -watchHistory')
+
+    userUpdated.accessToken = accessToken;
+
+    return res.status(200).json({
+        userUpdated
+    });
+})
+
+export {registerUser,loginUser};
+>>>>>>> 7dcb05844c2ae8314d3ca6ab2cf489e7300eb954
