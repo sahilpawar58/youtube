@@ -11,15 +11,9 @@ const uploadCloudinary = async function(localFilePath){
             api_key: process.env.CLOUDINARY_API_KEY, 
             api_secret: process.env.CLOUDINARY_API_SECRET
         });
-<<<<<<< HEAD
         const response = await cloudinary.uploader.upload(localFilePath,{ resource_type: "auto",media_metadata:true});
         // console.log(`File uploaded succesfully: `+response.url);
         return response;
-=======
-        const response = await cloudinary.uploader.upload(localFilePath,{ resource_type: "auto"});
-        // console.log(`File uploaded succesfully: `+response.url);
-        return response.url;
->>>>>>> 7dcb05844c2ae8314d3ca6ab2cf489e7300eb954
     }catch(err){
         unlinkSync(localFilePath);
         console.log(`Cloudinary Error: `+err);
